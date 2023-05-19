@@ -15,20 +15,26 @@ function App() {
   }, []);
 
   function kustuta(index) {
-    fetch("http://localhost:4000/tooted/kustuta/" + index)
+    fetch("http://localhost:4000/tooted/kustuta/" + index, {"method": "DELETE"})
         .then(res => res.json())
         .then(json => setTooted(json));
   }
 
-  function lisa() {
-    fetch(`http://localhost:4000/tooted/lisa/${idRef.current.value}/${nameRef.current.value}/${priceRef.current.value}/${isActiveRef.current.value}`)
-        .then(res => res.json())
-        .then(json => setTooted(json));
-  }
+    function lisa() {
+        const uusToode = {
+            "id": idRef.current.value,
+            "name": nameRef.current.value,
+            "price": priceRef.current.value,
+            "isActive": isActiveRef.current.value
+        }
+        fetch("http://localhost:4000/tooted/lisa", {"method": "POST", "body": JSON.stringify(uusToode)})
+            .then(res => res.json())
+            .then(json => setTooted(json));
+    }
 
   function dollariteks() {
     const kurss = 1.1;
-    fetch("http://localhost:4000/tooted/hind-dollaritesse/" + kurss)
+    fetch("http://localhost:4000/tooted/hind-dollaritesse/" + kurss, {"method": "PATCH"})
         .then(res => res.json())
         .then(json => setTooted(json));
   }
